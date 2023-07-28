@@ -1,0 +1,11 @@
+# https://terraform-docs.io/user-guide/configuration/
+
+formatter: md
+
+output:
+  file: "" # Outputs to stdout which is then consumed by pre-commit-terraform.
+
+settings:
+  anchor: false
+  html: false
+  lockfile: false

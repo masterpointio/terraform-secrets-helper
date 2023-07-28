@@ -1,0 +1,46 @@
+version: 0.1
+cli:
+  version: 1.13.0
+plugins:
+  sources:
+    - id: trunk
+      ref: v1.0.0
+      uri: https://github.com/trunk-io/plugins
+lint:
+  enabled:
+    - actionlint@1.6.25
+    - checkov@2.3.347
+    - git-diff-check
+    - markdownlint@0.35.0
+    - prettier@3.0.0
+    - terrascan@1.18.2
+    - tflint@0.47.0
+    - tfsec@1.28.1
+    - trivy@0.43.1
+    - trufflehog@3.45.2
+    - yamllint@1.32.0
+  ignore:
+    - linters: [markdownlint]
+      paths:
+        # https://features.trunk.io/check/p/ability-to-inline-ignore-prettier
+        - README.md
+        - .github/PULL_REQUEST_TEMPLATE.md
+    - linters: [terrascan]
+      paths:
+        # Missing support for TF 1.3.0 `optional` with the second argument (the attribute default value)
+        # https://github.com/tenable/terrascan/issues/1331
+        - variables.tf
+        - exports/secrets.sops.tf
+
+runtimes:
+  enabled:
+    - node@18.12.1
+    - python@3.10.8
+
+actions:
+  enabled:
+    - trunk-announce
+    - trunk-check-pre-push
+    - trunk-fmt-pre-commit
+    - commitlint
+    - trunk-upgrade-available
