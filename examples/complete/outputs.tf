@@ -1,14 +1,7 @@
-output "id" {
-  description = "ID of the created example"
-  value       = module.example.id
-}
+# In this example we assume that the mixin `../../exports/secrets.sops.tf` is placed next to `outputs.tf`,
+# `so local.secrets` is available.
 
-output "example" {
-  description = "Output \"example\" from example module"
-  value       = module.example.example
-}
-
-output "random" {
-  description = "Output \"random\" from example module"
-  value       = module.example.random
+output "db_password" {
+  value     = jsonencode(local.secrets["db_password"])
+  sensitive = true
 }
