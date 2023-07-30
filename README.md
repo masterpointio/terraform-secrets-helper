@@ -18,14 +18,17 @@ Copy `exports/secrets.sops.tf` to your project by running the following command:
 curl -sL https://raw.githubusercontent.com/masterpointio/terraform-secrets-helper/main/exports/exports/secrets.sops.tf -o exports/secrets.sops.tf
 ```
 
-The mixin incorporates the invocation of this module, so you simply need to configure the necessary variable and then reference it within your code.
+The mixin incorporates the invocation of this module, so you simply need to configure the required `secret_mapping` variable and then reference it within your code.
+
+See the full example in [examples/complete](https://github.com/masterpointio/terraform-secrets-helper/tree/main/examples/complete)
 
 ```hcl
 secret_mapping = [{
   name = "db_password"
-  file = "../../config/secrets/dev.yaml"
+  file = "test.yaml"
   type = "sops"
 }]
+
 
 output "db_password" {
   value     = jsonencode(local.secrets["db_password"])
