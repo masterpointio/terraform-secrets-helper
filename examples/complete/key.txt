@@ -1,0 +1,4 @@
+# This is a key created by [age](https://github.com/getsops/sops#encrypting-using-age) for this example only.
+# Don't use it to encrypt real secrets.
+# public key: age16s8ufjce303p3z2vxvf066rm37ueh4jyrk6tneectcf4ndkkwffqw6xrwp
+AGE-SECRET-KEY-10LCLHZDG25ECPN4RHGKNCSN8K473Q6ZSCN440HAQKC3T0DKQY8MQYG7ERM
