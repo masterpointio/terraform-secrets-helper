@@ -2,7 +2,7 @@
 
 # terraform-secrets-helper [![Latest Release](https://img.shields.io/github/release/masterpointio/terraform-secrets-helper.svg)](https://github.com/masterpointio/terraform-secrets-helper/releases/latest)
 
-This Terraform module provides a standard and extensible way of managing secrets from different sources, making them accessible through local.secrets. It's designed with the aim of creating an abstract interface for dealing with secrets in Terraform, regardless of the source of these secrets.
+This Terraform module provides a standard and extensible way of managing secrets from different sources, making them accessible through `local.secrets["<SECRET_NAME>"]`. It's designed to create an abstract interface for dealing with secrets in Terraform, regardless of the source of these secrets.
 
 Our initial version is built to handle [SOPS secrets](https://github.com/getsops/sops), but it is designed in a way that it can be easily extended to support other secret providers like AWS SSM Parameter Store, Vault, and more in the future.
 
@@ -15,7 +15,7 @@ It's 100% Open Source and licensed under the [APACHE2](LICENSE).
 Copy `exports/secrets.sops.tf` to your project by running the following command:
 
 ```sh
-curl -sL https://raw.githubusercontent.com/masterpointio/terraform-secrets-helper/main/exports/exports/secrets.sops.tf -o exports/secrets.sops.tf
+curl -sL https://raw.githubusercontent.com/masterpointio/terraform-secrets-helper/main/exports/secrets.sops.tf -o secrets.sops.tf
 ```
 
 The mixin incorporates the invocation of this module, so you simply need to configure the required `secret_mapping` variable and then reference it within your code.
@@ -28,7 +28,6 @@ secret_mapping = [{
   file = "test.yaml"
   type = "sops"
 }]
-
 
 output "db_password" {
   value     = jsonencode(local.secrets["db_password"])
