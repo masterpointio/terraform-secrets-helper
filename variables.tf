@@ -1,7 +1,7 @@
 variable "secret_mapping" {
   type = list(object({
     name = string
-    type = string
+    type = optional(string, "sops")
     path = optional(string, null)
     file = string
   }))
