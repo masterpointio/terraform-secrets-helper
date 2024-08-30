@@ -1,7 +1,7 @@
 module "secrets" {
   # checkov:skip=CKV_TF_1: For now we use Terraform registry source, not git. If switching to git, we should use a commit hash.
   source         = "masterpointio/helper/secrets"
-  version        = "0.2.0"
+  version        = "0.3.0"
   secret_mapping = var.secret_mapping
 }
 
