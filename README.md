@@ -66,9 +66,9 @@ No modules.
 
 ## Inputs
 
-| Name           | Description                                                                                                                              | Type                                                                                        | Default | Required |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------- | :------: |
-| secret_mapping | The list of secret mappings the application will need. This creates secret values for the component to consume at `local.secrets[name]`. | `list(object({ name = string type = string path = optional(string, null) file = string }))` | `[]`    |    no    |
+| Name           | Description                                                                                                                              | Type                                                                                                          | Default | Required |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------- | :------: |
+| secret_mapping | The list of secret mappings the application will need. This creates secret values for the component to consume at `local.secrets[name]`. | `list(object({ name = string type = optional(string, "sops") path = optional(string, null) file = string }))` | `[]`    |    no    |
 
 ## Outputs
 

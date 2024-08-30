@@ -1,23 +1,23 @@
 version: 0.1
 cli:
-  version: 1.20.1
+  version: 1.22.3
 plugins:
   sources:
     - id: trunk
-      ref: v1.4.4
+      ref: v1.6.2
       uri: https://github.com/trunk-io/plugins
 lint:
   enabled:
-    - actionlint@1.6.27
-    - checkov@3.2.31
+    - terrascan@1.19.1
+    - actionlint@1.7.1
+    - checkov@3.2.236
     - git-diff-check
-    - markdownlint@0.39.0
-    - prettier@3.2.5
-    - terrascan@1.18.12
-    - tflint@0.50.3
-    - tfsec@1.28.5
-    - trivy@0.49.1
-    - trufflehog@3.68.4
+    - markdownlint@0.41.0
+    - prettier@3.3.3
+    - tflint@0.53.0
+    - tfsec@1.28.10
+    - trivy@0.54.1
+    - trufflehog@3.81.9
     - yamllint@1.35.1
   ignore:
     - linters: [markdownlint]
@@ -30,7 +30,7 @@ lint:
         # Missing support for TF 1.3.0 `optional` with the second argument (the attribute default value)
         # https://github.com/tenable/terrascan/issues/1331
         - variables.tf
-        - exports/secrets.sops.tf
+        - "**/secrets.sops.tf"
 
 runtimes:
   enabled:
