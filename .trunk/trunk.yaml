@@ -1,6 +1,6 @@
 version: 0.1
 cli:
-  version: 1.22.3
+  version: 1.22.4
 plugins:
   sources:
     - id: trunk
@@ -10,14 +10,14 @@ lint:
   enabled:
     - terrascan@1.19.1
     - actionlint@1.7.1
-    - checkov@3.2.236
+    - checkov@3.2.239
     - git-diff-check
     - markdownlint@0.41.0
     - prettier@3.3.3
     - tflint@0.53.0
     - tfsec@1.28.10
     - trivy@0.54.1
-    - trufflehog@3.81.9
+    - trufflehog@3.81.10
     - yamllint@1.35.1
   ignore:
     - linters: [markdownlint]
