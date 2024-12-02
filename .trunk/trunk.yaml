@@ -1,23 +1,23 @@
 version: 0.1
 cli:
-  version: 1.22.7
+  version: 1.22.8
 plugins:
   sources:
     - id: trunk
-      ref: v1.6.4
+      ref: v1.6.5
       uri: https://github.com/trunk-io/plugins
 lint:
   enabled:
     - terrascan@1.19.1
-    - actionlint@1.7.3
-    - checkov@3.2.276
+    - actionlint@1.7.4
+    - checkov@3.2.322
     - git-diff-check
-    - markdownlint@0.42.0
-    - prettier@3.3.3
-    - tflint@0.53.0
+    - markdownlint@0.43.0
+    - prettier@3.4.1
+    - tflint@0.54.0
     - tfsec@1.28.11
     - trivy@0.56.2
-    - trufflehog@3.83.1
+    - trufflehog@3.84.1
     - yamllint@1.35.1
   ignore:
     - linters: [markdownlint]
