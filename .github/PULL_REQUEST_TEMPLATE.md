@@ -11,5 +11,5 @@
 
 ## references
 
-- Link to any supporting github issues or helpful documentation to add some context (e.g. stackoverflow).
+- Link to any supporting GitHub issues or helpful documentation to add some context (e.g. Stackoverflow).
 - Use `closes #123`, if this PR closes a GitHub issue `#123`
