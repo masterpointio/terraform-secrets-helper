@@ -100,18 +100,12 @@ run "test_multiple_files_and_secrets" {
   }
 
   assert {
-    condition = length(local.sops_files) == 2
+    condition = (
+      length(local.sops_files) == 2
+      && contains(local.sops_files, "database.yaml")
+      && contains(local.sops_files, "api.yaml")
+    )
     error_message = "Should have 2 unique sops files (database.yaml and api.yaml)"
-  }
-
-  assert {
-    condition = contains(local.sops_files, "database.yaml")
-    error_message = "Should contain database.yaml in sops_files"
-  }
-
-  assert {
-    condition = contains(local.sops_files, "api.yaml")
-    error_message = "Should contain api.yaml in sops_files"
   }
 
   assert {
@@ -129,7 +123,7 @@ run "test_multiple_files_and_secrets" {
       for mapping in local.sops_secret_mapping :
       contains(keys(local.sops_secrets), mapping.name)
     ])
-    error_message = "All secret mappings should result in corresponding secrets"
+    error_message = "All secret mappings should result in corresponding secret names"
   }
 
   assert {
