@@ -44,3 +44,7 @@ backend.tf.json
 **/*.bak
 **/*.*swp
 **/.DS_Store
+
+CLAUDE.md
+.claude/*
+.cursor/*
