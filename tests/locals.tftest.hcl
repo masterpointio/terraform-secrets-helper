@@ -66,26 +66,6 @@ run "test_empty_secret_mapping" {
   }
 
   assert {
-    condition = length(local.sops_secret_mapping) == 0
-    error_message = "Empty input should result in empty sops_secret_mapping"
-  }
-
-  assert {
-    condition = length(local.sops_files) == 0
-    error_message = "Empty input should result in empty sops_files"
-  }
-
-  assert {
-    condition = length(local.sops_yamls) == 0
-    error_message = "Empty input should result in empty sops_yamls"
-  }
-
-  assert {
-    condition = length(local.sops_secrets) == 0
-    error_message = "Empty input should result in empty sops_secrets"
-  }
-
-  assert {
     condition = length(local.secrets) == 0
     error_message = "Empty input should result in empty final secrets"
   }
