@@ -1,3 +1,13 @@
+# main.tftest.hcl - Tests the RESOURCE CREATION & INFRASTRUCTURE BEHAVIOR
+#
+# Focus: Tests data resource creation and for_each loop behavior
+# What it validates: data.sops_file.sops_secrets resource creation, path construction, for_each loops
+#
+# vs locals.tftest.hcl: This tests the "HOW" (infrastructure behavior), while locals.tftest.hcl tests the "WHAT" (business logic)
+#
+# Example: Tests that `data.sops_file.sops_secrets` creates resources with correct source_file paths
+#          vs locals.tftest.hcl which tests that `local.sops_files` has the right computed values
+
 mock_provider "sops" {
   mock_data "sops_file" {
     defaults = {

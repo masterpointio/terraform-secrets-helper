@@ -1,3 +1,13 @@
+# locals.tftest.hcl - Tests the LOGIC & DATA TRANSFORMATIONS
+#
+# Focus: Tests the locals block computations and data transformations
+# What it validates: local.sops_secret_mapping, local.sops_files, local.sops_yamls, local.sops_secrets, local.secrets
+#
+# vs main.tftest.hcl: This tests the "WHAT" (business logic), while main.tftest.hcl tests the "HOW" (resource creation)
+#
+# Example: Tests that `local.sops_files` contains the right unique files
+#          vs main.tftest.hcl which tests that `data.sops_file.sops_secrets` creates the right number of resources
+
 mock_provider "sops" {
   mock_data "sops_file" {
     defaults = {
