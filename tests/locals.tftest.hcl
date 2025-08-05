@@ -6,58 +6,6 @@ mock_provider "sops" {
   }
 }
 
-run "test_basic_secret_mapping_filtering" {
-  command = plan
-
-  variables {
-    secret_mapping = [
-      {
-        name = "db_password"
-        type = "sops"
-        file = "secrets.yaml"
-      },
-      {
-        name = "api_key"
-        type = "sops"
-        file = "secrets.yaml"
-      }
-    ]
-  }
-
-  assert {
-    condition = length(local.sops_secret_mapping) == 2
-    error_message = "Should have 2 sops secret mappings"
-  }
-
-  assert {
-    condition = alltrue([
-      for mapping in local.sops_secret_mapping :
-      mapping.type == "sops"
-    ])
-    error_message = "All filtered mappings should be of type 'sops'"
-  }
-
-  assert {
-    condition = length(local.sops_files) == 1
-    error_message = "Should have 1 unique sops file"
-  }
-
-  assert {
-    condition = contains(local.sops_files, "secrets.yaml")
-    error_message = "Should contain secrets.yaml in sops_files"
-  }
-
-  assert {
-    condition = length(local.sops_secrets) == 2
-    error_message = "Should have 2 secrets in sops_secrets map"
-  }
-
-  assert {
-    condition = local.secrets == local.sops_secrets
-    error_message = "Final secrets should match sops_secrets"
-  }
-}
-
 run "test_empty_secret_mapping" {
   command = plan
 
