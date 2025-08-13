@@ -45,6 +45,7 @@ backend.tf.json
 **/*.*swp
 **/.DS_Store
 
-CLAUDE.md
+# AI code gen tools - we beleive engineers are responsible for the code they push no matter how it's generated
 .claude/*
 .cursor/*
+CLAUDE.md
