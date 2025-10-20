@@ -6,5 +6,9 @@ terraform {
       source  = "carlpett/sops"
       version = ">= 0.7"
     }
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0"
+    }
   }
 }
