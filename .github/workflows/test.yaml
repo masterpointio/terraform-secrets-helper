@@ -21,16 +21,7 @@ jobs:
       matrix:
         tf: [tofu, terraform]
     steps:
-      # Only checkout for pull_request_target events (not for push to main)
-      # pull_request_target runs in the context of the base branch for security,
-      # so we must explicitly checkout the PR's head commit to test the actual changes
-      - name: Checkout PR Head
-        if: github.event_name != 'push'
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 0
-      - uses: masterpointio/github-action-tf-test@c3b619f3bca9e4f482b9e0fb3166ab3f02d9d54c # v1.0.0
+      - uses: masterpointio/github-action-tf-test@c1e41998f67925ac3f34e0bbcfcaa4a44d1f0cd9 # v1.0.1
         with:
           tf_type: ${{ matrix.tf }}
           aws_role_arn: ${{ vars.TF_TEST_AWS_ROLE_ARN }}
