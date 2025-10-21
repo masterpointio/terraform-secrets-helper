@@ -21,8 +21,11 @@ jobs:
       matrix:
         tf: [tofu, terraform]
     steps:
+      # Only checkout for pull_request_target events (not for push to main)
+      # pull_request_target runs in the context of the base branch for security,
+      # so we must explicitly checkout the PR's head commit to test the actual changes
       - name: Checkout PR Head
-        if: github.event_name == 'pull_request_target'
+        if: github.event_name != 'push'
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
