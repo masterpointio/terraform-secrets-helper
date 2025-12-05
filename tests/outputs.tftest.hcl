@@ -6,6 +6,14 @@ mock_provider "sops" {
   }
 }
 
+mock_provider "aws" {
+  mock_data "aws_ssm_parameter" {
+    defaults = {
+      value = "mock-ssm-value"
+    }
+  }
+}
+
 run "test_output_structure_and_content" {
   command = plan
 
