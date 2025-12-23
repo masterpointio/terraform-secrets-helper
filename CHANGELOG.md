@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/masterpointio/terraform-secrets-helper/compare/v1.0.0...v2.0.0) (2025-12-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* file should be optional + actualize docs ([#28](https://github.com/masterpointio/terraform-secrets-helper/issues/28))
+
+### Bug Fixes
+
+* file should be optional + actualize docs ([#28](https://github.com/masterpointio/terraform-secrets-helper/issues/28)) ([3a4a8e6](https://github.com/masterpointio/terraform-secrets-helper/commit/3a4a8e68d9cb74e69fd982a921ef56facd2d7f80))
+
 ## [1.0.0](https://github.com/masterpointio/terraform-secrets-helper/compare/v0.3.0...v1.0.0) (2025-12-08)
 
 
