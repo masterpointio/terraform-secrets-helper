@@ -14,17 +14,19 @@ Our initial version is built to handle [SOPS secrets](https://github.com/getsops
 
 This module can be included as a child module, where needed, to fetch secrets and provide them in an abstract manner.
 
-# Usage
+## Usage
 
-Copy `exports/secrets.sops.tf` to your project by running the following command:
+Copy `exports/secrets.mixin.tf` to your project by running the following command:
 
 ```sh
-curl -sL https://raw.githubusercontent.com/masterpointio/terraform-secrets-helper/main/exports/secrets.sops.tf -o secrets.sops.tf
+curl -sL https://raw.githubusercontent.com/masterpointio/terraform-secrets-helper/main/exports/secrets.mixin.tf -o secrets.mixin.tf
 ```
 
 The mixin incorporates the invocation of this module, so you simply need to configure the required `secret_mapping` variable and then reference it within your code.
 
 See the full example in [examples/complete](https://github.com/masterpointio/terraform-secrets-helper/tree/main/examples/complete)
+
+### SOPS Secrets
 
 ```hcl
 secret_mapping = [{
@@ -39,9 +41,38 @@ output "db_password" {
 }
 ```
 
+### AWS SSM Parameter Store Secrets
+
+```hcl
+secret_mapping = [{
+  name = "api_token"
+  type = "ssm"
+  path = "/myapp/prod/api_token"
+}]
+```
+
+### Mixed Sources
+
+You can combine both SOPS and SSM secrets in the same configuration:
+
+```hcl
+secret_mapping = [
+  {
+    name = "db_password"
+    type = "sops"
+    file = "secrets.yaml"
+  },
+  {
+    name = "api_token"
+    type = "ssm"
+    path = "/myapp/prod/api_token"
+  }
+]
+```
+
 # Future Enhancements
 
-While the current version is specific to SOPS, future mixins will support other secret providers like SSM Parameter Store, Vault, and more. The future mixins will include all necessary provider configuration for themselves, making the process of integrating with different secret providers seamless.
+The module currently supports SOPS and AWS SSM Parameter Store. Future versions may add support for other secret providers like HashiCorp Vault, AWS Secrets Manager, and more.
 
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable MD013 -->
@@ -76,7 +107,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_secret_mapping"></a> [secret\_mapping](#input\_secret\_mapping) | The list of secret mappings the application will need.<br/>This creates secret values for the component to consume at `local.secrets[name]`. | <pre>list(object({<br/>    name = string<br/>    type = optional(string, "sops")<br/>    path = optional(string, null)<br/>    file = string<br/>  }))</pre> | `[]` | no |
+| <a name="input_secret_mapping"></a> [secret\_mapping](#input\_secret\_mapping) | The list of secret mappings the application will need.<br/>This creates secret values for the component to consume at `local.secrets[name]`.<br/>For SOPS secrets: use type="sops" (default), file="path/to/sops/file.yaml", and name matching a key in the SOPS file.<br/>For SSM secrets: use type="ssm" and path="/path/to/ssm/parameter". | <pre>list(object({<br/>    name = string<br/>    type = optional(string, "sops")<br/>    path = optional(string, null)<br/>    file = optional(string, null)<br/>  }))</pre> | `[]` | no |
 
 ## Outputs
 

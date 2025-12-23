@@ -70,3 +70,61 @@ run "test_output_empty_secrets" {
     error_message = "Output should be an empty map when no secrets are configured"
   }
 }
+
+run "test_output_ssm_secrets" {
+  command = plan
+
+  variables {
+    secret_mapping = [
+      {
+        name = "ssm_secret"
+        type = "ssm"
+        path = "/app/secret"
+      }
+    ]
+  }
+
+  assert {
+    condition     = output.all["ssm_secret"] == "mock-ssm-value"
+    error_message = "ssm_secret should have the expected value from mocked SSM data"
+  }
+
+  assert {
+    condition     = length(output.all) == 1
+    error_message = "Output should contain exactly 1 secret"
+  }
+}
+
+run "test_output_mixed_sops_and_ssm" {
+  command = plan
+
+  variables {
+    secret_mapping = [
+      {
+        name = "db_password"
+        type = "sops"
+        file = "database.yaml"
+      },
+      {
+        name = "ssm_token"
+        type = "ssm"
+        path = "/app/token"
+      }
+    ]
+  }
+
+  assert {
+    condition     = output.all["db_password"] == "supersecret123"
+    error_message = "db_password should have the expected value from mocked SOPS data"
+  }
+
+  assert {
+    condition     = output.all["ssm_token"] == "mock-ssm-value"
+    error_message = "ssm_token should have the expected value from mocked SSM data"
+  }
+
+  assert {
+    condition     = length(output.all) == 2
+    error_message = "Output should contain exactly 2 secrets"
+  }
+}
