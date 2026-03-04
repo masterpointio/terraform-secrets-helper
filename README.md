@@ -18,7 +18,7 @@ This module can be included as a child module, where needed, to fetch secrets an
 
 This module is organized into provider-specific sub-modules to allow consumers to avoid unnecessary provider dependencies:
 
-```
+```sh
 terraform-secrets-helper/
 ├── modules/
 │   ├── ssm/    # AWS SSM Parameter Store only (requires: hashicorp/aws)
@@ -141,7 +141,7 @@ See the full example in [examples/complete](https://github.com/masterpointio/ter
 The module currently supports SOPS and AWS SSM Parameter Store. Future versions may add support for other secret providers like HashiCorp Vault, AWS Secrets Manager, and more.
 
 <!-- prettier-ignore-start -->
-<!-- markdownlint-disable MD013 -->
+<!-- markdownlint-disable MD013 MD060 -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
@@ -153,21 +153,18 @@ The module currently supports SOPS and AWS SSM Parameter Store. Future versions 
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.0 |
-| <a name="provider_sops"></a> [sops](#provider\_sops) | >= 0.7 |
+No providers.
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_sops"></a> [sops](#module\_sops) | ./modules/sops | n/a |
+| <a name="module_ssm"></a> [ssm](#module\_ssm) | ./modules/ssm | n/a |
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [aws_ssm_parameter.ssm_secrets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
-| [sops_file.sops_secrets](https://registry.terraform.io/providers/carlpett/sops/latest/docs/data-sources/file) | data source |
+No resources.
 
 ## Inputs
 
