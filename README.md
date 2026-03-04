@@ -14,19 +14,59 @@ Our initial version is built to handle [SOPS secrets](https://github.com/getsops
 
 This module can be included as a child module, where needed, to fetch secrets and provide them in an abstract manner.
 
-## Usage
+## Module Architecture
 
-Copy `exports/secrets.mixin.tf` to your project by running the following command:
+This module is organized into provider-specific sub-modules to allow consumers to avoid unnecessary provider dependencies:
 
-```sh
-curl -sL https://raw.githubusercontent.com/masterpointio/terraform-secrets-helper/main/exports/secrets.mixin.tf -o secrets.mixin.tf
+```
+terraform-secrets-helper/
+├── modules/
+│   ├── ssm/    # AWS SSM Parameter Store only (requires: hashicorp/aws)
+│   └── sops/   # SOPS encrypted files only (requires: carlpett/sops)
+├── main.tf     # Root module — delegates to both sub-modules (backward compatible)
+└── exports/
+    ├── secrets.ssm.mixin.tf   # SSM-only mixin (no SOPS provider needed)
+    ├── secrets.sops.mixin.tf  # SOPS-only mixin (no AWS provider needed)
+    └── secrets.mixin.tf       # Combined mixin (both SOPS + SSM)
 ```
 
-The mixin incorporates the invocation of this module, so you simply need to configure the required `secret_mapping` variable and then reference it within your code.
+**Choose your entry point based on which secret backends you need:**
 
-See the full example in [examples/complete](https://github.com/masterpointio/terraform-secrets-helper/tree/main/examples/complete)
+| You need  | Mixin                   | Module source                                | SOPS provider required? |
+| --------- | ----------------------- | -------------------------------------------- | ----------------------- |
+| SSM only  | `secrets.ssm.mixin.tf`  | `masterpointio/helper/secrets//modules/ssm`  | No                      |
+| SOPS only | `secrets.sops.mixin.tf` | `masterpointio/helper/secrets//modules/sops` | Yes                     |
+| Both      | `secrets.mixin.tf`      | `masterpointio/helper/secrets` (root module) | Yes                     |
 
-### SOPS Secrets
+## Usage
+
+### SSM-Only
+
+Copy `exports/secrets.ssm.mixin.tf` to your project:
+
+```sh
+curl -sL https://raw.githubusercontent.com/masterpointio/terraform-secrets-helper/main/exports/secrets.ssm.mixin.tf -o secrets.ssm.mixin.tf
+```
+
+This uses the `modules/ssm` sub-module and does **not** require the SOPS provider.
+
+```hcl
+secret_mapping = [{
+  name = "api_token"
+  type = "ssm"
+  path = "/myapp/prod/api_token"
+}]
+```
+
+### SOPS-Only
+
+Copy `exports/secrets.sops.mixin.tf` to your project:
+
+```sh
+curl -sL https://raw.githubusercontent.com/masterpointio/terraform-secrets-helper/main/exports/secrets.sops.mixin.tf -o secrets.sops.mixin.tf
+```
+
+This uses the `modules/sops` sub-module. The SOPS provider (`carlpett/sops`) **is** required.
 
 ```hcl
 secret_mapping = [{
@@ -41,19 +81,15 @@ output "db_password" {
 }
 ```
 
-### AWS SSM Parameter Store Secrets
+### Both (SSM + SOPS)
 
-```hcl
-secret_mapping = [{
-  name = "api_token"
-  type = "ssm"
-  path = "/myapp/prod/api_token"
-}]
+Copy `exports/secrets.mixin.tf` to your project:
+
+```sh
+curl -sL https://raw.githubusercontent.com/masterpointio/terraform-secrets-helper/main/exports/secrets.mixin.tf -o secrets.mixin.tf
 ```
 
-### Mixed Sources
-
-You can combine both SOPS and SSM secrets in the same configuration:
+This uses the root module which supports both backends. Both the SOPS provider (`carlpett/sops`) and the AWS provider (`hashicorp/aws`) are required.
 
 ```hcl
 secret_mapping = [
@@ -70,7 +106,37 @@ secret_mapping = [
 ]
 ```
 
-# Future Enhancements
+### Direct Sub-Module Usage
+
+You can also reference sub-modules directly for maximum control:
+
+```hcl
+module "secrets_ssm" {
+  source  = "masterpointio/helper/secrets//modules/ssm"
+  version = "3.0.0"
+
+  secret_mapping = [
+    { name = "api_token", path = "/myapp/prod/api_token" }
+  ]
+}
+
+module "secrets_sops" {
+  source  = "masterpointio/helper/secrets//modules/sops"
+  version = "3.0.0"
+
+  secret_mapping = [
+    { name = "db_password", file = "secrets.yaml" }
+  ]
+}
+
+locals {
+  secrets = merge(module.secrets_ssm.all, module.secrets_sops.all)
+}
+```
+
+See the full example in [examples/complete](https://github.com/masterpointio/terraform-secrets-helper/tree/main/examples/complete)
+
+## Future Enhancements
 
 The module currently supports SOPS and AWS SSM Parameter Store. Future versions may add support for other secret providers like HashiCorp Vault, AWS Secrets Manager, and more.
 

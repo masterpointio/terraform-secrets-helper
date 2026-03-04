@@ -1,9 +1,8 @@
 # tflint-ignore-file: terraform_required_version
 
-# COMBINED MIXIN - Uses the root module which supports both SOPS and SSM secrets.
-# Requires the SOPS provider (carlpett/sops) and the AWS provider (hashicorp/aws).
-# If you only need one backend, use secrets.ssm.mixin.tf or secrets.sops.mixin.tf instead
-# to avoid pulling in unnecessary provider dependencies.
+# SOPS-ONLY MIXIN - Uses the SOPS sub-module.
+# Requires the SOPS provider (carlpett/sops).
+# If you also need SSM secrets, use secrets.mixin.tf (both) or secrets.ssm.mixin.tf (SSM only).
 
 locals {
   # tflint-ignore: terraform_unused_declarations
@@ -12,9 +11,17 @@ locals {
 
 module "secrets" {
   # checkov:skip=CKV_TF_1: For now we use Terraform registry source, not git. If switching to git, we should use a commit hash.
-  source         = "masterpointio/helper/secrets"
-  version        = "3.0.0"
-  secret_mapping = var.secret_mapping
+  source  = "masterpointio/helper/secrets//modules/sops"
+  version = "3.0.0"
+
+  secret_mapping = [
+    for mapping in var.secret_mapping :
+    {
+      name = mapping.name
+      file = mapping.file
+    }
+    if mapping.type == "sops"
+  ]
 }
 
 variable "secret_mapping" {
@@ -29,7 +36,7 @@ variable "secret_mapping" {
     The list of secret mappings the application will need.
     This creates secret values for the component to consume at `local.secrets[name]`.
     For SOPS secrets: use type="sops" (default), file="path/to/sops/file.yaml", and name matching a key in the SOPS file.
-    For SSM secrets: use type="ssm" and path="/path/to/ssm/parameter".
+    NOTE: SSM secrets require using secrets.ssm.mixin.tf or secrets.mixin.tf instead.
     EOT
 
   validation {
@@ -46,13 +53,5 @@ variable "secret_mapping" {
       mapping.type == "sops" ? mapping.file != null : true
     ])
     error_message = "SOPS secrets require 'file' attribute."
-  }
-
-  validation {
-    condition = alltrue([
-      for mapping in var.secret_mapping :
-      mapping.type == "ssm" ? mapping.path != null : true
-    ])
-    error_message = "SSM secrets require 'path' attribute."
   }
 }
