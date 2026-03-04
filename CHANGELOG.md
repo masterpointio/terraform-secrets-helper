@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/masterpointio/terraform-secrets-helper/compare/v2.0.0...v2.0.1) (2026-03-04)
+
+
+### Bug Fixes
+
+* pin SOPS at 1.3.0 ([#34](https://github.com/masterpointio/terraform-secrets-helper/issues/34)) ([c933b8a](https://github.com/masterpointio/terraform-secrets-helper/commit/c933b8a105cc2e851070203c72736b59540bec5f))
+
 ## [2.0.0](https://github.com/masterpointio/terraform-secrets-helper/compare/v1.0.0...v2.0.0) (2025-12-23)
 
 
