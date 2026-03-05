@@ -89,7 +89,7 @@ Copy `exports/secrets.mixin.tf` to your project:
 curl -sL https://raw.githubusercontent.com/masterpointio/terraform-secrets-helper/main/exports/secrets.mixin.tf -o secrets.mixin.tf
 ```
 
-This uses the root module which supports both backends. Both the SOPS provider (`carlpett/sops`) and the AWS provider (`hashicorp/aws`) are required.
+This uses the base child module which supports both backends. Both the SOPS provider (`carlpett/sops`) and the AWS provider (`hashicorp/aws`) are required.
 
 ```hcl
 secret_mapping = [
