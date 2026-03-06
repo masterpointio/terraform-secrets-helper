@@ -42,9 +42,9 @@ variable "secret_mapping" {
   validation {
     condition = alltrue([
       for mapping in var.secret_mapping :
-      contains(["sops", "ssm"], mapping.type)
+      mapping.type == "sops"
     ])
-    error_message = "Secret type must be either 'sops' or 'ssm'."
+    error_message = "This is a SOPS-only mixin. All secrets must have type=\"sops\". For SSM secrets, use secrets.ssm.mixin.tf or secrets.mixin.tf instead."
   }
 
   validation {

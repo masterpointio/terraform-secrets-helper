@@ -11,7 +11,7 @@ locals {
 
   sops_secrets = {
     for mapping in var.secret_mapping :
-    mapping.name => lookup(local.sops_yamls[mapping.file], mapping.name, null)
+    mapping.name => local.sops_yamls[mapping.file][mapping.name]
   }
 }
 

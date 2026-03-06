@@ -1,7 +1,7 @@
 mock_provider "sops" {
   mock_data "sops_file" {
     defaults = {
-      raw = "db_password: supersecret123\napi_key: test-api-key-456"
+      raw = "db_password: supersecret123\napi_key: test-api-key-456\nredis_password: redis-secret-789"
     }
   }
 }
