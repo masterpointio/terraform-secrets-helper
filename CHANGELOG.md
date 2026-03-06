@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/masterpointio/terraform-secrets-helper/compare/v2.0.1...v3.0.0) (2026-03-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* split into provider-specific sub-modules to allow excluding unused providers ([#33](https://github.com/masterpointio/terraform-secrets-helper/issues/33))
+
+### Features
+
+* split into provider-specific sub-modules to allow excluding unused providers ([#33](https://github.com/masterpointio/terraform-secrets-helper/issues/33)) ([2e9a71f](https://github.com/masterpointio/terraform-secrets-helper/commit/2e9a71fe31fca333cc5bd7e22bd1b564019e5f85))
+
 ## [2.0.1](https://github.com/masterpointio/terraform-secrets-helper/compare/v2.0.0...v2.0.1) (2026-03-04)
 
 
