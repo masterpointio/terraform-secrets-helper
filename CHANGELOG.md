@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/masterpointio/terraform-secrets-helper/compare/v3.0.0...v3.0.1) (2026-09-01)
+
+
+### Bug Fixes
+
+* pin GitHub Actions to commit SHAs (INT-326) ([#38](https://github.com/masterpointio/terraform-secrets-helper/issues/38)) ([604aa64](https://github.com/masterpointio/terraform-secrets-helper/commit/604aa64fd2e830c869b4968c8afdb471aa4d2008))
+
 ## [3.0.0](https://github.com/masterpointio/terraform-secrets-helper/compare/v2.0.1...v3.0.0) (2026-03-06)
 
 
